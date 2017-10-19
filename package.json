@@ -2,10 +2,35 @@
   "name": "pager-org-api",
   "version": "1.0.0",
   "description": "Code test for Pager",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryan Hall <ryanhallcs@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-mustache": "^3.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-spawn-mocha": "^4.0.1",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "sequelize-cli": "^3.0.0",
+    "yargs": "^9.0.1"
+  },
+  "dependencies": {
+    "epimetheus": "^1.0.55",
+    "hapi": "^16.6.2",
+    "inversify": "^4.3.0",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "reflect-metadata": "^0.1.10",
+    "sequelize": "^4.15.0"
+  }
 }
