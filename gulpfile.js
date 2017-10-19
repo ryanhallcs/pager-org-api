@@ -5,6 +5,7 @@ var del = require('del');
 var babel = require("gulp-babel");
 var argv = require('yargs').argv;
 var mustache = require('gulp-mustache');
+var cp = require('child_process');
 
 const defaults = {
     serverHost: 'localhost',
@@ -45,4 +46,12 @@ gulp.task('serve', ['default'], function () {
 
 gulp.task('test', function() {
     return gulp.src(['./test/**/*.js']).pipe(mocha());
+});
+
+gulp.task('migrate', ['default'], function() {
+    cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate', {stdio: 'inherit'});
+});
+
+gulp.task('migrateDown', ['default'], function() {
+    cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate:undo', {stdio: 'inherit'});
 });
