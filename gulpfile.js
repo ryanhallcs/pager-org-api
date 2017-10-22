@@ -8,8 +8,8 @@ var mustache = require('gulp-mustache');
 var cp = require('child_process');
 
 const defaults = {
-    serverHost: 'localhost',
-    serverPort: 3000,
+    serverHost: '0.0.0.0',
+    serverPort: 8001,
     environment: 'local',
     username: 'postgres',
     password: 'admin',

@@ -1,0 +1,10 @@
+Description: >
+    This is an example of a long running ECS service that serves a JSON API of products.
+
+Parameters: 
+
+    VPC:
+        Description: The VPC that the ECS cluster is deployed to
+        Type: AWS::EC2::VPC::Id
+
+    
