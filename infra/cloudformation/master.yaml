@@ -43,6 +43,15 @@ Resources:
                 Subnets: !GetAtt VPC.Outputs.PublicSubnets
                 SecurityGroup: !GetAtt SecurityGroups.Outputs.LoadBalancerSecurityGroup
 
+    DB:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: https://s3.amazonaws.com/pager-org-api/services/database.yaml
+            Parameters:
+                Subnets: !GetAtt VPC.Outputs.PublicSubnets
+                EnvironmentName: !Ref AWS::StackName
+                SecurityGroup : !GetAtt SecurityGroups.Outputs.DBSecurityGroup
+
     ECS:
         Type: AWS::CloudFormation::Stack
         Properties:

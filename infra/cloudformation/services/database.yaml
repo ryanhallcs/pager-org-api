@@ -2,9 +2,66 @@ Description: >
     This is an example of a long running ECS service that serves a JSON API of products.
 
 Parameters: 
-
-    VPC:
-        Description: The VPC that the ECS cluster is deployed to
-        Type: AWS::EC2::VPC::Id
-
     
+    EnvironmentName:
+        Description: An environment name that will be prefixed to resource names
+        Type: String
+
+    DBUsername:
+        Description: Database login username
+        Type: String
+        Default: postgres
+
+    DBPassword:
+        Description: Database login password
+        Type: String
+        Default: password
+
+    DBStorage:
+        Description: The size of the DB (gb)
+        Type: Number
+        Default: 5
+
+    DBClass:
+        Description: Database instance class
+        Type: String
+        Default: db.t2.micro
+
+    Subnets:
+        Description: Subnets for the for the DB Instance subnet group
+        Type: CommaDelimitedList
+
+    SecurityGroup:
+        Description: Security groups for the DB instances
+        Type: AWS::EC2::SecurityGroup::Id
+
+Resources:
+
+    DBSubnetGroup:
+        Description: Subnet group within our VPC
+        Type: AWS::RDS::DBSubnetGroup
+        Properties:
+            SubnetIds: !Ref Subnets
+            DBSubnetGroupDescription: DB Subnet groups for Organization DB
+
+    OrganizationDB:
+        Type: AWS::RDS::DBInstance
+        Properties:
+            AllocatedStorage: !Ref DBStorage
+            DBInstanceClass: !Ref DBClass
+            Engine: Postgres
+            MasterUsername: !Ref DBUsername
+            MasterUserPassword: !Ref DBPassword
+            DBSubnetGroupName: !Ref DBSubnetGroup
+            VPCSecurityGroups:
+                - !Ref SecurityGroup
+            Tags: 
+                - Key: "Name"
+                  Value: !Sub ${EnvironmentName}-database
+        DeletionPolicy: Snapshot
+
+Outputs:
+
+    DBAddress:
+        Description: Endpoint and port of the DB Instance
+        Value: !Join [ ":", [ !GetAtt OrganizationDB.Endpoint.Address, !GetAtt OrganizationDB.Endpoint.Port ] ]

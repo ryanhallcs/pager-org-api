@@ -5,9 +5,13 @@ RUN mkdir -p /logs/pager-org-api
 RUN mkdir -p /app
 
 COPY package.json /app
-RUN cd /app; npm i --production
+COPY .sequelizerc /app
+COPY gulpfile.js /app
+RUN cd /app; npm i
 
-COPY dist /app
+COPY dist /app/dist
 EXPOSE 8001
-
-ENTRYPOINT forever -l /logs/pager-org-api/log.txt -a /app/lib/index.js
+RUN npm i -g gulp
+# ENTRYPOINT cd /app; gulp migrate; 
+WORKDIR /app
+ENTRYPOINT gulp migrateProd; forever -l /logs/pager-org-api/log.txt -a /app/dist/lib/index.js

@@ -47,6 +47,20 @@ Resources:
                 - Key: Name
                   Value: !Sub ${EnvironmentName}-LoadBalancers
 
+    DBSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            VpcId: !Ref VPC
+            GroupDescription: Access to the DB by ECS clusters
+            SecurityGroupIngress:
+                - SourceSecurityGroupId: !Ref ECSHostSecurityGroup
+                  IpProtocol: -1
+                - CidrIp: 0.0.0.0/0
+                  IpProtocol: -1
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName}-DB
+
 Outputs:
 
     ECSHostSecurityGroup: 
@@ -56,3 +70,7 @@ Outputs:
     LoadBalancerSecurityGroup:
         Description: A reference to the security group for load balancers
         Value: !Ref LoadBalancerSecurityGroup
+
+    DBSecurityGroup:
+        Description: A reference to the security group for our DB
+        Value: !Ref DBSecurityGroup

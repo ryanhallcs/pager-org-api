@@ -55,3 +55,7 @@ gulp.task('migrate', ['default'], function() {
 gulp.task('migrateDown', ['default'], function() {
     cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate:undo', {stdio: 'inherit'});
 });
+
+gulp.task('migrateProd', function() {
+    cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate', {stdio: 'inherit'});
+});
