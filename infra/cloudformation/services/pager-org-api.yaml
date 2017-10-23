@@ -47,7 +47,7 @@ Resources:
             ContainerDefinitions:
                 - Name: pager-org-api
                   Essential: true
-                  Image: 155429035274.dkr.ecr.us-east-1.amazonaws.com/pager-org-api:1.0.4
+                  Image: 155429035274.dkr.ecr.us-east-1.amazonaws.com/pager-org-api:1.0.5
                   Memory: 128
                   PortMappings:
                     - ContainerPort: 8001
