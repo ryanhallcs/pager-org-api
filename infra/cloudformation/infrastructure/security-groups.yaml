@@ -55,8 +55,6 @@ Resources:
             SecurityGroupIngress:
                 - SourceSecurityGroupId: !Ref ECSHostSecurityGroup
                   IpProtocol: -1
-                - CidrIp: 0.0.0.0/0
-                  IpProtocol: -1
             Tags:
                 - Key: Name
                   Value: !Sub ${EnvironmentName}-DB

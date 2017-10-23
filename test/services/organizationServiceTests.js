@@ -1,9 +1,9 @@
 var expect = require('chai').expect;
 
-var Organization = require('../../models/organization');
-var OrganizationService = require('../../lib/services/organizationService');
+var Organization = require('../../lib/models/organization').Organization;
+var OrganizationService = require('../../lib/services/organizationService').OrganizationService;
 
-define('OrganizationService', () => {
+describe('OrganizationService', () => {
     const org1 = {
         id: 1,
         name: 'org',
@@ -14,16 +14,17 @@ define('OrganizationService', () => {
     };
     
     // Happy path base case, ensure straightforward query result are returned
-    it('should find org by code', () => {
+    it('should search org by code', () => {
         var orgDb = {
-            findAll: function(search) {
-                return new Promise((resolve, reject) => resolve([org]));
+            findOne: function(search) {
+                return Promise.resolve(org1);
             }
         };
         
         var sut = new OrganizationService(orgDb);
 
-        var result = sut.findOrg('ORG1', OrganizationService.SEARCH_CODE);
-        expect(result).to.equal(org);
+        sut.searchOrganization('ORG1', OrganizationService.SEARCH_CODE).then(org => {
+            expect(org).to.equal(org1);
+        });
     });
 })

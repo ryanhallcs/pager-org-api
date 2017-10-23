@@ -14,7 +14,8 @@ const defaults = {
     username: 'postgres',
     password: 'admin',
     host: 'localhost',
-    port: 5432
+    port: 5432,
+    jwtSecret: 'secret'
 };
 
 gulp.task('clean', function(cb) {
@@ -44,18 +45,20 @@ gulp.task('serve', ['default'], function () {
     });
 });
 
-gulp.task('test', function() {
-    return gulp.src(['./test/**/*.js']).pipe(mocha());
+gulp.task('build-test', ['default'], function() {
+    return gulp.src('test/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('dist/test'));
 });
 
-gulp.task('migrate', ['default'], function() {
+gulp.task('test', ['build-test'], function() {
+    return gulp.src('dist/test/**/*.js').pipe(mocha());
+});
+
+gulp.task('migrate', function() {
     cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate', {stdio: 'inherit'});
 });
 
-gulp.task('migrateDown', ['default'], function() {
+gulp.task('migrateDown', function() {
     cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate:undo', {stdio: 'inherit'});
-});
-
-gulp.task('migrateProd', function() {
-    cp.execSync('"./node_modules/.bin/sequelize"' + (process.platform == 'win32' ? '.cmd' : '') + ' db:migrate', {stdio: 'inherit'});
 });

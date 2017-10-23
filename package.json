@@ -27,7 +27,9 @@
   "dependencies": {
     "epimetheus": "^1.0.55",
     "hapi": "^16.6.2",
+    "hapi-auth-jwt2": "^7.3.0",
     "inversify": "^4.3.0",
+    "jsonwebtoken": "^8.1.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "reflect-metadata": "^0.1.10",
